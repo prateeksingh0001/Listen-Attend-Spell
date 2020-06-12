@@ -1,0 +1,79 @@
+#sdfaf
+
+version: '1.0'
+experimentName: "LAS_test"
+
+experimentFolder: "experiments"
+
+vocab_size: 35
+
+data:
+  train:
+    data: "data/train_new.npy"
+    labels: "data/train_transcripts_int.npy"
+  val:
+    data: "data/dev_new.npy"
+    labels: "data/dev_transcripts_int.npy"
+  vocab_file_path: "data/vocab.txt"
+
+data_loader:
+  train:
+    batch_size: 32
+    shuffle: True
+    num_workers: 4
+    pin_memory: True
+  val:
+    batch_size: 32
+    shuffle: False
+    num_workers: 4
+    pin_memory: True
+
+arch:
+  name: "LAS"
+  args:
+    listener:
+      input_feature_dims: 40
+      listener_hidden_dims: 512
+      num_layers: 3
+      key_size: 128
+      value_size: 128
+      dropout: 0.5
+    speller:
+      speller_hidden_dims: 512
+      embedding_dims: 256
+      vocab_size: 35
+      key_size: 128
+      value_size: 128
+      isAttended: True
+      mode: "scaled_dot"
+
+
+optimizer:
+  name: "optim.Adam"
+  args:
+    lr: 0.001
+    weight_decay: 0.00005
+    amsgrad: True
+
+criterion:
+  name: "nn.CrossEntropyLoss"
+
+lr_scheduler:
+  name: "lr_scheduler.ReduceLROnPlateau"
+  args:
+    mode: "min"
+    factor: 0.5
+    patience: 0
+    min_lr: 0.000001
+    verbose: True
+
+trainer:
+  name: "Seq2SeqTrainer"
+  train_params:
+    num_epochs: 1
+    save_dir: "experiments/LAS_test/"
+    save_frequency: 1
+    report_frequency: 1
+    inference_params:
+      beam_size: 3
+      max_len: 250
