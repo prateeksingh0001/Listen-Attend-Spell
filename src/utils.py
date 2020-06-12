@@ -22,4 +22,3 @@ def collatePad(batch):
     padded_target = pad_sequence(target, batch_first=True)
 
     return padded_data, padded_target, data_len, target_len
-

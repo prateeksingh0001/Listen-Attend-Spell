@@ -3,19 +3,21 @@ import yaml
 from yaml import Loader
 import argparse
 
-from data_loader.dataset import TextDictionary, VariableDataset, pad_collate
-from model.las import LAS
-from utils import collatePad, setupExperimentDirectory
-
-from trainer.train import Seq2SeqTrainer
 import torch
-from torch.utils import data
 import torch.nn as nn
 import torch.optim as optim
+from torch.utils import data
 from torch.nn.utils.rnn import pad_sequence
+from trainer.train import Seq2SeqTrainer
 import torch.optim.lr_scheduler as lr_scheduler
 from torch.utils.tensorboard import SummaryWriter
 
+from data_loader.dataset import TextDictionary, VariableDataset, pad_collate
+from utils import collatePad, setupExperimentDirectory
+
+from model.las import LAS
+
+# TODO: Add docstring for the functions, which have the tensor shapes
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--config_file", type=str, help="config file path")

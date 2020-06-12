@@ -44,6 +44,7 @@ class BeamSearchDecoder(nn.Module):
 
         return padded_sequences, sequence_lengths, self.attns
 
+    # TODO: Alot of class attributes defined outside the init function
     def initialize_beams(self, keys, values, src_lengths):
         self.beam_search_seq = torch.full((self.max_len, self.batch_size, self.beam_width),
                                           fill_value=self.target_dict.pad(),
@@ -87,12 +88,10 @@ class BeamSearchDecoder(nn.Module):
 
         return scores
 
+    # TODO: Pylint gives too many local variables for this func.
     def prune_beams(self, lprobs, step_num):
         # TODO: Check how broadcasting works in torch
         extended_scores = self.scores.unsqueeze(-1) + lprobs
-
-        # print("beam search seq now: ", self.beam_search_seq[:step_num+1])
-        # exit(0)
 
         for batch in range(self.batch_size):
             num_active_beams = self.active_mask[batch].sum()

@@ -1,2 +1,4 @@
-**/data
-**/experiments
+**/.idea/
+/data/**
+/experiments/**
+**/__pycache__/

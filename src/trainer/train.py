@@ -124,7 +124,6 @@ class BaseTrainer:
 
     def eval_epoch(self, dev_data_loader, target_dict, inference_parameters):
         self.model.eval()
-        # print("eval epoch: inference parameters ", inference_parameters)
 
         dev_dataset_len = len(dev_data_loader)
         running_dev_loss = 0
